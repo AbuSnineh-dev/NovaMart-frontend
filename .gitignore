@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.next-qa/
+out/
+.env*
+!.env.example
+test-results/
+playwright-report/
+# Backend is a separate Git repository, checked out locally for the demo.
+/backend/
+.demo/
+prototype.html
+*.tsbuildinfo
+coverage/
+*.log
+/next-env.d.ts

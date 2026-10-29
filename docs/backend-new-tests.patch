@@ -1,0 +1,34 @@
+diff --git a/src/auth/Strategy/jwt.strategy.spec.ts b/src/auth/Strategy/jwt.strategy.spec.ts
+new file mode 100644
+index 0000000..0ce1a0d
+--- /dev/null
++++ b/src/auth/Strategy/jwt.strategy.spec.ts
+@@ -0,0 +1,28 @@
++import { describe, it, expect, vi } from 'vitest';
++import { ConfigService } from '@nestjs/config';
++import { JwtStrategy } from './jwt.strategy.js';
++import type { UserService } from '../../user/user.service.js';
++
++describe('JWT role freshness', () => {
++  function setup(user: unknown) {
++    const users = { getUserById: vi.fn().mockResolvedValue(user) };
++    const config = new ConfigService({ JWT_SECRET: 'unit-test-only-secret' });
++    return {
++      users,
++      strategy: new JwtStrategy(config, users as unknown as UserService),
++    };
++  }
++  it('uses the current database role rather than a stale token role', async () => {
++    const { strategy, users } = setup({ role: 'user' });
++    await expect(
++      strategy.validate({ sub: 'owner', role: 'admin' }),
++    ).resolves.toEqual({ userId: 'owner', role: 'user' });
++    expect(users.getUserById).toHaveBeenCalledWith('owner');
++  });
++  it('rejects a token whose account no longer exists', async () => {
++    const { strategy } = setup(null);
++    await expect(
++      strategy.validate({ sub: 'deleted', role: 'admin' }),
++    ).rejects.toThrow('User no longer exists');
++  });
++});
