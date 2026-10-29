@@ -1,0 +1,2 @@
+# Patch files preserve upstream whitespace so they remain applicable.
+docs/*.patch -whitespace

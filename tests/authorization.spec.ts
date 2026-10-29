@@ -46,4 +46,3 @@ test("role revocation applies to an already issued admin session", async ({
     await candidate.dispose();
   }
 });
-

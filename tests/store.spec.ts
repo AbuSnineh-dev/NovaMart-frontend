@@ -400,4 +400,3 @@ test("API: transactional checkout, snapshot prices, ownership and cancellation s
   await other.dispose();
   await admin.dispose();
 });
-
