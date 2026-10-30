@@ -40,8 +40,7 @@ test("login portals verify the account role before creating a session", async ({
 test("separate admin login has no registration and keeps failed logins on the admin page", async ({
   page,
 }) => {
-  await page.goto("/admin");
-  await page.getByRole("link", { name: "Log in to continue" }).click();
+  await page.goto("/admin/login");
   await expect(page).toHaveURL("/admin/login");
   await expect(
     page.getByRole("heading", { name: "Administrator sign-in." }),

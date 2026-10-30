@@ -11,6 +11,7 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import PasswordRecovery from "./password-recovery";
 import {
   ShoppingBag,
   Heart,
@@ -420,22 +421,19 @@ export default function Store() {
       <div className="empty" role="status">
         {t("Loading your account…", "جارٍ تحميل حسابك…")}
       </div>
+    ) : admin && user?.role !== "admin" ? (
+      empty(
+        t("Page not found.", "الصفحة غير موجودة."),
+        t("Let’s get you back to the collection.", "لنعد إلى المجموعة."),
+      )
     ) : !user ? (
       <div className="empty">
         <UserRound size={44} />
         <h2>{t("Your account, all together.", "حسابك، كل شيء بمكان واحد.")}</h2>
-        <Link className="btn black" href={admin ? "/admin/login" : "/login"}>
+        <Link className="btn black" href="/login">
           {t("Log in to continue", "سجّل الدخول للمتابعة")}
         </Link>
       </div>
-    ) : admin && user.role !== "admin" ? (
-      empty(
-        t("Access restricted", "الوصول مقيّد"),
-        t(
-          "This area is for store administrators.",
-          "هذه الصفحة لإدارة المتجر.",
-        ),
-      )
     ) : (
       child
     );
@@ -516,12 +514,8 @@ export default function Store() {
             {t("Shop", "المتجر")}
           </Link>
           <Link href="/about">{t("Our story", "قصتنا")}</Link>
-          {user && (
-            <Link href={user.role === "admin" ? "/admin" : "/orders"}>
-              {user.role === "admin"
-                ? t("Admin console", "لوحة الإدارة")
-                : t("My orders", "طلباتي")}
-            </Link>
+          {user?.role === "user" && (
+            <Link href="/orders">{t("My orders", "طلباتي")}</Link>
           )}
         </nav>
         <div className="header-actions">
@@ -1099,6 +1093,14 @@ export default function Store() {
                     }
                   />
                 </Field>
+                {!isAdminLogin && !register && (
+                  <Link
+                    className="text-button forgot-password-link"
+                    href="/forgot-password"
+                  >
+                    {t("Forgot password?", "نسيت كلمة المرور؟")}
+                  </Link>
+                )}
                 {register && !isAdminLogin && (
                   <>
                     <small>
@@ -1118,18 +1120,16 @@ export default function Store() {
                   <ArrowRight size={18} />
                 </button>
               </form>
-              <Link
-                className="text-button portal-link"
-                href={isAdminLogin ? "/login" : "/admin/login"}
-              >
-                {isAdminLogin
-                  ? t("Customer sign-in", "تسجيل دخول العميل")
-                  : t("Administrator sign-in", "تسجيل دخول الأدمن")}
-                <ArrowRight size={16} />
-              </Link>
+              {isAdminLogin && (
+                <Link className="text-button portal-link" href="/login">
+                  {t("Customer sign-in", "تسجيل دخول العميل")}
+                  <ArrowRight size={16} />
+                </Link>
+              )}
             </div>
           </section>
         )}
+        {path === "/forgot-password" && <PasswordRecovery ar={ar} />}
         {path === "/account" && (
           <section className="container section narrow">
             {title(
@@ -1739,6 +1739,7 @@ export default function Store() {
           "/shop",
           "/wishlist",
           "/login",
+          "/forgot-password",
           "/admin/login",
           "/account",
           "/orders",

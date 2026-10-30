@@ -24,7 +24,9 @@ The prototype was downloaded from https://novamatr2005.netlify.app/ on 2026-10-2
 
 All frontend API requests go through `/api/*` on Next.js. `BACKEND_URL` is server-side only. Session expires after two hours, as on the backend. No production API deployment is required.
 
-Customer sign-in is at `/login` and administrator sign-in is at `/admin/login` (no registration). The frontend calls `/api/auth/customer-login` or `/api/auth/admin-login`; both proxy the existing NestJS login endpoint and verify the authenticated profile's current role before issuing the session cookie. Wrong credentials and a role mismatch return the same generic HTTP 401 message, without revealing whether an account is an administrator. The original API login route remains compatible with existing backend clients.
+Customer sign-in is at `/login` and administrator sign-in is at the direct `/admin/login` URL (no registration). Public navigation and customer sign-in contain no staff links. Unauthorized dashboard visits show the generic missing-page interface. Staff routes carry a `noindex, nofollow` header; existing backend guards remain responsible for access control. The frontend calls `/api/auth/customer-login` or `/api/auth/admin-login`; both proxy the existing NestJS login endpoint and verify the authenticated profile's current role before issuing the session cookie. Wrong credentials and a role mismatch return the same generic HTTP 401 message, without revealing whether an account is an administrator. The original API login route remains compatible with existing backend clients.
+
+Customer password recovery at `/forgot-password` is a frontend-only interface by explicit user request. It validates email format but sends no API request, changes no password and sends no email. Submission honestly reports that recovery is unavailable. The recovery link is absent from administrator sign-in and customer registration.
 
 Authorization uses the current database role on each request. Revoking an admin role takes effect immediately for an already issued JWT; missing accounts are rejected. This behaviour is covered by a real API regression test and strategy unit tests.
 

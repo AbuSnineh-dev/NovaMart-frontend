@@ -26,7 +26,9 @@ The frontend and backend are separate repositories. `backend/` is ignored by thi
 
 Open http://127.0.0.1:3001. First run downloads a real MongoDB binary; allow time for this. Demo runs a single-node MongoDB replica set, seeds the original prototype catalog and demo users, and starts both NestJS (3000) and Next.js (3001). Data resets when the process stops. It does not connect to an existing database.
 
-Customers sign in at `/login`; administrators use `/admin/login`. Each portal checks the account role on the server. Failed sign-in messages are generic and do not disclose account roles.
+Customers sign in at `/login`; administrators use the direct `/admin/login` URL. Staff links are not shown in storefront navigation or customer sign-in, and staff routes carry a `noindex, nofollow` header. Each portal checks the account role on the server. Failed sign-in messages are generic and do not disclose account roles.
+
+The customer login includes a `/forgot-password` interface, available only from customer sign-in. As requested, this is frontend-only: email format is validated, no recovery request is sent, and submission displays an unavailable notice instead of falsely reporting an email was sent. No backend password reset or email provider was added.
 
 | Account | Email | Password |
 | --- | --- | --- |

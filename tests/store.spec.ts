@@ -139,7 +139,7 @@ test("registration, invalid credentials and unauthorized admin route", async ({
   await expect(page).toHaveURL("/shop");
   await page.goto("/admin");
   await expect(
-    page.getByRole("heading", { name: "Access restricted" }),
+    page.getByRole("heading", { name: "Page not found." }),
   ).toBeVisible();
 });
 test("admin inventory CRUD, category integrity, user role changes, order fulfillment", async ({

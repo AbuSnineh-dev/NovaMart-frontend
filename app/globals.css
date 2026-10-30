@@ -832,6 +832,32 @@ textarea {
   margin-top: 25px;
   color: var(--red);
 }
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin: -10px 0 18px;
+  color: var(--red);
+}
+.recovery-icon {
+  color: #e58595;
+  margin: 45px 0;
+}
+.recovery-layout .auth-form h2 {
+  margin: 12px 0 18px;
+}
+.recovery-layout .auth-form > p {
+  font-size: 12px;
+  margin-bottom: 28px;
+}
+.recovery-notice {
+  background: #fff0f0;
+  color: #8a1527;
+  border: 1px solid #dfb4bc;
+  padding: 15px;
+  font-size: 12px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
 .tabs {
   display: flex;
   gap: 30px;

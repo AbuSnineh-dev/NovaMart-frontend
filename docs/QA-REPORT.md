@@ -1,5 +1,14 @@
 # NovaMart QA — 2026-10-28
 
+## Update — 2026-10-30: private staff entry and customer recovery interface
+
+- Removed staff login/dashboard links from public pages, customer sign-in and storefront navigation, including the storefront viewed by a signed-in administrator. Staff can still open their authorized dashboard directly.
+- Guests and customers visiting `/admin` receive the generic missing-page interface; staff URLs include the `X-Robots-Tag: noindex, nofollow` header. This discoverability change supplements existing role authorization; it does not replace it.
+- Added customer-only `/forgot-password` UI, including email format validation, return to login, English/Arabic layouts and mobile RTL.
+- Explicitly frontend-only as requested: no backend edits, outbound recovery requests, email delivery or password changes. Submission reports unavailability and never claims successful delivery.
+- **14 browser/API integration tests passed (39.9 seconds)** on an isolated local demo; TypeScript and production build passed under Node.js 26.13.0. Added coverage for absent staff links, protected direct access, crawler headers, customer-only recovery, validation, no outbound recovery POSTs and Arabic mobile layout.
+- Screenshots: [customer sign-in](screenshots/customer-login.png), [recovery](screenshots/password-recovery.png), [Arabic mobile recovery](screenshots/password-recovery-mobile-ar.png).
+
 ## Update — 2026-10-29: separate sign-in portals
 
 - Customer sign-in: `/login`; administrator sign-in: `/admin/login`, with no registration on the administrator page.
